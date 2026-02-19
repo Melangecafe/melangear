@@ -31,7 +31,6 @@
             padding: 20px;
             border-radius: 10px;
             z-index: 1000;
-            display: none;
         }
     </style>
 </head>
@@ -39,9 +38,9 @@
     <div id="info">☕ Меланж Кофе • Наведите камеру на маркер</div>
     <div id="loading">Загрузка камеры...</div>
 
-    <!-- ИСПРАВЛЕНО: убраны пробелы в конце ссылок -->
-    <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@1.4.0/dist/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@1.7.4/aframe/build/aframe-ar.js"></script>
+    <!-- РАБОЧИЕ ССЫЛКИ ДЛЯ РФ -->
+    <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.0/dist/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ar.js@3.3.3/aframe/build/aframe-ar.js"></script>
     
     <a-scene 
         embedded 
@@ -51,53 +50,36 @@
         loading-screen="enabled: false"
     >
         <a-marker preset="hiro">
-            <!-- 3D-чашка -->
-            <a-entity position="0 0.5 0">
-                <!-- Тело чашки -->
-                <a-cylinder 
-                    color="#8B4513" 
-                    radius="0.4" 
-                    height="0.6" 
-                    position="0 0.3 0"
-                    animation="property: rotation; to: 0 360 0; loop: true; dur: 8000; easing: linear">
-                </a-cylinder>
-                <!-- Ручка -->
-                <a-torus 
-                    color="#A0522D" 
-                    radius="0.1" 
-                    radius-tubular="0.05" 
-                    rotation="90 0 0" 
-                    position="0.55 0.3 0"
-                    animation="property: rotation; to: 0 360 0; loop: true; dur: 8000; easing: linear">
-                </a-torus>
-                <!-- Пар (простая анимация через позицию) -->
-                <a-sphere color="#ffffff" radius="0.08" position="-0.15 0.7 0" opacity="0.8"
-                    animation__pos="property: position; from: -0.15 0.7 0; to: -0.15 1.0 0; dur: 1000; loop: true; dir: alternate; easing: ease-in-out"
-                    animation__opa="property: opacity; from: 0.8; to: 0; dur: 1000; loop: true; dir: alternate">
-                </a-sphere>
-            </a-entity>
-            
-            <!-- Текст "Меланж" -->
+            <a-box 
+                color="#D2691E" 
+                depth="0.4" 
+                height="0.6" 
+                width="0.4" 
+                position="0 0.5 0"
+                animation="property: rotation; to: 0 360 0; loop: true; dur: 6000; easing: linear">
+            </a-box>
             <a-text 
                 value="МЕЛАНЖ" 
                 color="#ffffff" 
                 position="0 1.2 0" 
                 scale="2 2 2"
-                align="center"
-                animation="property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear">
+                align="center">
             </a-text>
         </a-marker>
-        
         <a-entity camera></a-entity>
     </a-scene>
 
     <script>
-        // Показываем загрузку при старте
-        document.getElementById('loading').style.display = 'block';
-        
-        // Скрываем после загрузки сцены
+        // Скрываем загрузку после инициализации
         document.querySelector('a-scene').addEventListener('loaded', function() {
             document.getElementById('loading').style.display = 'none';
+        });
+        
+        // Обработка ошибки доступа к камере
+        window.addEventListener('error', function(e) {
+            if (e.message.includes('NotAllowedError')) {
+                document.getElementById('loading').innerHTML = 'Разрешите доступ к камере!';
+            }
         });
     </script>
 </body>
