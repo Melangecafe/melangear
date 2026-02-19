@@ -39,8 +39,11 @@
     <div id="loading">Загрузка камеры...</div>
 
     <!-- Подключаем A-Frame и AR.js -->
-    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
-    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+ <!-- A-Frame через российский CDN -->
+<script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@1.4.0/dist/aframe.min.js"></script>
+
+<!-- AR.js через российский CDN -->
+<script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@1.7.4/aframe/build/aframe-ar.js"></script>
     
     <a-scene 
         embedded 
@@ -109,4 +112,5 @@
         });
     </script>
 </body>
+
 </html>
