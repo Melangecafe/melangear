@@ -38,9 +38,9 @@
     <div id="info">☕ Меланж Кофе • Наведите камеру на маркер</div>
     <div id="loading">Загрузка камеры...</div>
 
-    <!-- РАБОЧИЕ ССЫЛКИ ДЛЯ РФ -->
-    <script src="https://cdn.jsdelivr.net/npm/aframe@1.4.0/dist/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/ar.js@3.3.3/aframe/build/aframe-ar.js"></script>
+    <!-- ВАЖНО: Ссылки на ЛОКАЛЬНЫЕ файлы -->
+    <script src="aframe.min.js"></script>
+    <script src="aframe-ar.js"></script>
     
     <a-scene 
         embedded 
@@ -50,6 +50,7 @@
         loading-screen="enabled: false"
     >
         <a-marker preset="hiro">
+            <!-- Вращающийся коричневый куб -->
             <a-box 
                 color="#D2691E" 
                 depth="0.4" 
@@ -58,6 +59,7 @@
                 position="0 0.5 0"
                 animation="property: rotation; to: 0 360 0; loop: true; dur: 6000; easing: linear">
             </a-box>
+            <!-- Текст "Меланж" -->
             <a-text 
                 value="МЕЛАНЖ" 
                 color="#ffffff" 
@@ -73,13 +75,6 @@
         // Скрываем загрузку после инициализации
         document.querySelector('a-scene').addEventListener('loaded', function() {
             document.getElementById('loading').style.display = 'none';
-        });
-        
-        // Обработка ошибки доступа к камере
-        window.addEventListener('error', function(e) {
-            if (e.message.includes('NotAllowedError')) {
-                document.getElementById('loading').innerHTML = 'Разрешите доступ к камере!';
-            }
         });
     </script>
 </body>
