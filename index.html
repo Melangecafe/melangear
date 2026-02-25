@@ -3,42 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Меланж AR</title>
+    <title>Melange Cafe AR</title>
     <style>
         body { 
             margin: 0; 
             overflow: hidden; 
-            font-family: Arial, sans-serif;
+            font-family: 'Arial Rounded MT Bold', Arial, sans-serif;
         }
         #info {
             position: absolute;
             top: 20px;
             width: 100%;
             text-align: center;
-            color: white;
-            background: rgba(0, 0, 0, 0.7);
+            color: #FFD700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.6);
             padding: 15px;
             z-index: 1000;
-            font-size: 18px;
+            font-size: 20px;
+            font-weight: bold;
+            letter-spacing: 1px;
         }
         #loading {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            color: white;
-            background: rgba(0, 0, 0, 0.8);
-            padding: 20px;
-            border-radius: 10px;
+            color: #FFD700;
+            background: rgba(30, 20, 0, 0.9);
+            padding: 20px 40px;
+            border-radius: 15px;
             z-index: 1000;
+            font-size: 22px;
+            border: 2px solid #FFD700;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
         }
     </style>
 </head>
 <body>
-    <div id="info">☕ Меланж Кофе • Наведите камеру на маркер</div>
-    <div id="loading">Загрузка камеры...</div>
+    <div id="info">✨ Melange Cafe ✨</div>
+    <div id="loading">Загрузка золотой магии...</div>
 
-    <!-- ВАЖНО: ЛОКАЛЬНЫЕ файлы из репозитория -->
+    <!-- ЛОКАЛЬНЫЕ СКРИПТЫ (обязательно!) -->
     <script src="aframe.min.js"></script>
     <script src="aframe-ar.js"></script>
     
@@ -50,28 +55,58 @@
         loading-screen="enabled: false"
     >
         <a-marker preset="hiro">
-            <!-- Ваша 3D-модель -->
-            <a-entity 
-                gltf-model="scene.gltf"
-                scale="0.8 0.8 0.8"
-                position="0 0.5 0"
-                animation="property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear">
+            <!-- Золотая надпись с эффектом взрыва -->
+            <a-entity id="gold-text" position="0 0.8 0">
+                <a-text 
+                    value="MelangeCafe" 
+                    color="#FFD700" 
+                    position="0 0 0"
+                    scale="3 3 3"
+                    align="center"
+                    font="exo2bold"
+                    depth="0.1"
+                    shader="flat">
+                </a-text>
+                
+                <!-- Эффект блесток (частицы) -->
+                <a-entity particle-system="preset: dust; maxAge: 3; texture: https://cdn.aframe.io/particles/images/star.png; color: #FFD700,#FFFFFF,#FFAA00; size: 0.3; count: 50; opacity: 0.8; duration: 100; velocity: 0 0.5 0; acceleration: 0 -0.1 0"></a-entity>
             </a-entity>
         </a-marker>
         <a-entity camera></a-entity>
     </a-scene>
 
     <script>
-        // Скрываем загрузку после инициализации
-        document.querySelector('a-scene').addEventListener('loaded', function() {
-            document.getElementById('loading').style.display = 'none';
-        });
-        
-        // Обработка ошибки доступа к камере
-        window.addEventListener('error', function(e) {
-            if (e.message.includes('NotAllowedError')) {
-                document.getElementById('loading').innerHTML = 'Разрешите доступ к камере!';
-            }
+        // Анимация взрыва и вращения
+        document.addEventListener('DOMContentLoaded', function() {
+            const scene = document.querySelector('a-scene');
+            
+            scene.addEventListener('loaded', function() {
+                // Скрываем загрузку
+                document.getElementById('loading').style.display = 'none';
+                
+                // Находим текст
+                const text = document.querySelector('#gold-text');
+                
+                // Эффект взрыва при старте
+                setTimeout(() => {
+                    text.setAttribute('animation__scale', 'property: scale; from: 0.1 0.1 0.1; to: 1 1 1; dur: 800; easing: easeOutElastic');
+                    text.setAttribute('animation__pulse', 'property: scale; from: 1 1 1; to: 1.1 1.1 1.1; dur: 1000; loop: true; dir: alternate; easing: easeInOutSine');
+                    text.setAttribute('animation__rotate', 'property: rotation; to: 0 360 0; loop: true; dur: 8000; easing: linear');
+                    
+                    // Добавляем звук взрыва (опционально)
+                    const audio = new Audio('https://cdn.freesound.org/previews/317/317338_4914444-lq.mp3');
+                    audio.volume = 0.3;
+                    // audio.play(); // Раскомментировать если нужен звук
+                }, 500);
+            });
+            
+            // Обработка ошибки камеры
+            window.addEventListener('error', function(e) {
+                if (e.message.includes('NotAllowedError')) {
+                    document.getElementById('loading').innerHTML = '❗ Разрешите доступ к камере!';
+                    document.getElementById('loading').style.background = 'rgba(100, 0, 0, 0.9)';
+                }
+            });
         });
     </script>
 </body>
