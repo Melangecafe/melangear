@@ -38,7 +38,7 @@
     <div id="info">☕ Меланж Кофе • Наведите камеру на маркер</div>
     <div id="loading">Загрузка камеры...</div>
 
-    <!-- ВАЖНО: Ссылки на ЛОКАЛЬНЫЕ файлы (в корне репозитория) -->
+    <!-- ВАЖНО: ЛОКАЛЬНЫЕ файлы из репозитория -->
     <script src="aframe.min.js"></script>
     <script src="aframe-ar.js"></script>
     
@@ -50,22 +50,13 @@
         loading-screen="enabled: false"
     >
         <a-marker preset="hiro">
-            <!-- Ваши 3D-файлы в корне репозитория -->
+            <!-- Ваша 3D-модель -->
             <a-entity 
                 gltf-model="scene.gltf"
                 scale="0.8 0.8 0.8"
                 position="0 0.5 0"
                 animation="property: rotation; to: 0 360 0; loop: true; dur: 10000; easing: linear">
             </a-entity>
-            
-            <!-- Текст "МЕЛАНЖ" -->
-            <a-text 
-                value="МЕЛАНЖ" 
-                color="#ffffff" 
-                position="0 1.5 0" 
-                scale="2.5 2.5 2.5"
-                align="center">
-            </a-text>
         </a-marker>
         <a-entity camera></a-entity>
     </a-scene>
